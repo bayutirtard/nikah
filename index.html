@@ -351,20 +351,31 @@
 
     // EVENT TOMBOL BUKA UNDANGAN
     btnBuka.addEventListener('click', () => {
-      mainBody.classList.remove('h-screen', 'overflow-hidden');
-      mainBody.classList.add('overflow-y-auto');
-      musicControlBtn.classList.remove('hidden');
-      AOS.refresh();
+  // 1. Lepas kunci scroll halaman
+  mainBody.classList.remove('h-screen', 'overflow-hidden');
+  mainBody.classList.add('overflow-y-auto');
+  musicControlBtn.classList.remove('hidden');
+  AOS.refresh();
 
-      if (!isPlaying) {
-        playMusic();
-      }
+  if (!isPlaying) {
+    playMusic();
+  }
 
-      document.getElementById('detail').scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
+  // 2. Tunggu browser selesai me-render ulang layout HP
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      const detailSection = document.getElementById('detail');
+      
+      // Hitung koordinat elemen #detail secara presisi
+      const targetPosition = detailSection.getBoundingClientRect().top + window.pageYOffset;
+      
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
       });
-    });
+    }, 250); // Jeda 150ms memberikan waktu yang cukup agar scroll terasa halus di mobile
+  });
+});
 
     // KONTROL MUSIK
     musicControlBtn.addEventListener('click', () => {
