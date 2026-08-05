@@ -107,7 +107,7 @@
           <label class="block text-xs text-stone-600 font-semibold mb-1">Jumlah Tamu Hadir</label>
           <input type="number" id="rsvp-jumlah" min="1" max="5" value="1" required class="w-full px-4 py-2 text-xs border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-rose-800" placeholder="Jumlah orang">
         </div>
-        <button type="submit" id="btn-rsvp" class="w-full bg-stone-800 hover:bg-stone-900 text-white text-xs font-semibold py-2.5 rounded-lg transition shadow-sm">
+        <button type="submit" id="btn-rsvp" class="w-full bg-rose-800 hover:bg-rose-900 text-white text-xs font-semibold py-2.5 rounded-lg transition shadow-sm">
           Kirim Konfirmasi
         </button>
       </form>
@@ -173,7 +173,7 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6enlwdHhjcW5tbWNvdXludWZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU5MDQ3NzksImV4cCI6MjEwMTQ4MDc3OX0.qdAGC3LrPFD9ZbBZ2wrhAdz3a7dcxMACjXL5laCN8Ng';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // --- FITUR RSVP (HASIL SIMPAN PRIVATE) ---
+    // --- FITUR RSVP ---
     document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btnRsvp = document.getElementById('btn-rsvp');
@@ -201,7 +201,7 @@
       btnRsvp.disabled = false;
     });
 
-    // --- FITUR UCAPAN (HASIL TAMPIL DI WEB) ---
+    // --- FITUR UCAPAN ---
     async function loadUcapan() {
       const { data, error } = await supabaseClient
         .from('ucapan')
