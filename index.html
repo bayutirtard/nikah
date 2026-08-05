@@ -185,10 +185,12 @@
       if (statusSelect.value === 'Tidak Hadir') {
         jumlahContainer.classList.add('hidden');
         jumlahInput.removeAttribute('required');
+        jumlahInput.setAttribute('min', '0');
         jumlahInput.value = 0;
       } else {
         jumlahContainer.classList.remove('hidden');
         jumlahInput.setAttribute('required', 'required');
+        jumlahInput.setAttribute('min', '1');
         jumlahInput.value = 1;
       }
     });
