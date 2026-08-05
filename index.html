@@ -87,7 +87,7 @@
       </a>
     </div>
 
-    <!-- FORM RSVP (PRIVATE / HASIL TIDAK DITAMPILKAN DI WEB) -->
+    <!-- FORM RSVP -->
     <div data-aos="fade-up" class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 mb-8 text-left">
       <h3 class="font-serif-custom text-3xl text-rose-800 mb-4 text-center">Konfirmasi Kehadiran (RSVP)</h3>
       
@@ -103,10 +103,13 @@
             <option value="Tidak Hadir">Maaf, Tidak Bisa Hadir</option>
           </select>
         </div>
-        <div>
+        
+        <!-- Field Jumlah Tamu Dinamis -->
+        <div id="container-jumlah-tamu">
           <label class="block text-xs text-stone-600 font-semibold mb-1">Jumlah Tamu Hadir</label>
           <input type="number" id="rsvp-jumlah" min="1" max="5" value="1" required class="w-full px-4 py-2 text-xs border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-rose-800" placeholder="Jumlah orang">
         </div>
+
         <button type="submit" id="btn-rsvp" class="w-full bg-rose-800 hover:bg-rose-900 text-white text-xs font-semibold py-2.5 rounded-lg transition shadow-sm">
           Kirim Konfirmasi
         </button>
@@ -116,7 +119,7 @@
       </p>
     </div>
 
-    <!-- FORM UCAPAN & DOA (PUBLIC / DITAMPILKAN DI WEB) -->
+    <!-- FORM UCAPAN & DOA -->
     <div data-aos="fade-up" class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 mb-10 text-left">
       <h3 class="font-serif-custom text-3xl text-rose-800 mb-4 text-center">Kirim Doa & Ucapan</h3>
       
@@ -173,6 +176,23 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6enlwdHhjcW5tbWNvdXludWZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU5MDQ3NzksImV4cCI6MjEwMTQ4MDc3OX0.qdAGC3LrPFD9ZbBZ2wrhAdz3a7dcxMACjXL5laCN8Ng';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    // --- LOGIKA TOGGLE JUMLAH TAMU ---
+    const statusSelect = document.getElementById('rsvp-status');
+    const jumlahContainer = document.getElementById('container-jumlah-tamu');
+    const jumlahInput = document.getElementById('rsvp-jumlah');
+
+    statusSelect.addEventListener('change', () => {
+      if (statusSelect.value === 'Tidak Hadir') {
+        jumlahContainer.classList.add('hidden');
+        jumlahInput.removeAttribute('required');
+        jumlahInput.value = 0;
+      } else {
+        jumlahContainer.classList.remove('hidden');
+        jumlahInput.setAttribute('required', 'required');
+        jumlahInput.value = 1;
+      }
+    });
+
     // --- FITUR RSVP ---
     document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -184,7 +204,7 @@
 
       const nama = document.getElementById('rsvp-nama').value;
       const status = document.getElementById('rsvp-status').value;
-      const jumlah_tamu = parseInt(document.getElementById('rsvp-jumlah').value);
+      const jumlah_tamu = status === 'Tidak Hadir' ? 0 : parseInt(jumlahInput.value);
 
       const { error } = await supabaseClient
         .from('rsvp')
