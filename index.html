@@ -362,20 +362,29 @@ btnBuka.addEventListener('click', () => {
     playMusic();
   }
 
-  // 2. Tunggu browser selesai me-render ulang layout HP
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      const detailSection = document.getElementById('detail');
-      
-      // Hitung koordinat elemen #detail secara presisi
-      const targetPosition = detailSection.getBoundingClientRect().top + window.pageYOffset;
-      
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
-    }, 150); // Jeda 150ms memberikan waktu yang cukup agar scroll terasa halus di mobile
-  });
+  const detailSection = document.getElementById('detail');
+
+  // Deteksi apakah pengguna menggunakan HP/Mobile
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+
+  if (isMobile) {
+    // Jalur HP: Pakai delay kecil agar kalkulasi address bar HP selesai & scroll mulus
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        const targetPosition = detailSection.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      }, 150);
+    });
+  } else {
+    // Jalur PC: Gunakan scrollIntoView bawaan browser yang sangat mulus di desktop
+    detailSection.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
 });
 
     // KONTROL MUSIK
