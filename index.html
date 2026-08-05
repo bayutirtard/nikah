@@ -33,23 +33,29 @@
       z-index: 50;
       animation: fall linear infinite;
     }
+
+    /* Mencegah highlight oranye bawaan browser mobile */
+    #music-control {
+      -webkit-tap-highlight-color: transparent !important;
+      -webkit-touch-callout: none !important;
+      user-select: none !important;
+    }
   </style>
 </head>
-<!-- KUNCI SCROLL: h-screen & overflow-hidden pada body saat awal -->
 <body id="main-body" class="bg-stone-50 font-sans-custom text-stone-800 antialiased h-screen overflow-hidden">
 
   <!-- Efek Bunga Melayang -->
   <div id="petals-container"></div>
 
-  <!-- AUDIO ELEMENT (Link Direct MP3 GitHub Anda) -->
+  <!-- AUDIO ELEMENT -->
   <audio id="wedding-music" loop preload="auto">
     <source src="https://raw.githubusercontent.com/bayutirtard/nikah/main/Bruno%20Mars%20-%20Risk%20It%20All%20Piano%20Cover%20Sheet%20Music.mp3" type="audio/mpeg">
     Browser Anda tidak mendukung elemen audio.
   </audio>
 
-  <!-- TOMBOL KONTROL MUSIK MELAYANG -->
-  <button id="music-control" class="hidden fixed bottom-5 right-5 z-50 bg-rose-800 text-white p-3 rounded-full shadow-lg hover:bg-rose-900 transition flex items-center justify-center border-2 border-white focus:outline-none w-12 h-12">
-    <span id="music-icon" class="text-base font-bold">⏸</span>
+  <!-- TOMBOL KONTROL MUSIK MELAYANG (SUDAH DIPERBAIKI) -->
+  <button id="music-control" class="hidden fixed bottom-6 right-4 z-[9999] bg-[#991b1b] text-white p-2 rounded-full shadow-xl hover:bg-[#7f1d1d] active:bg-[#7f1d1d] focus:outline-none focus:ring-0 border-2 border-white flex items-center justify-center w-10 h-10">
+    <span id="music-icon" class="text-sm font-bold leading-none">⏸</span>
   </button>
 
   <!-- Hero Section (Cover Depan) -->
@@ -74,11 +80,11 @@
 
     <!-- Tombol Buka Undangan -->
     <button id="btn-buka-undangan" data-aos="fade-up" data-aos-delay="300" class="animate-bounce bg-rose-800 hover:bg-rose-900 text-white text-sm px-6 py-2.5 rounded-full shadow-md transition">
-      Buka Undangan
+      ✉️ Buka Undangan
     </button>
   </section>
 
-  <!-- KONTEN UTAMA (TETAP ADA DI DOM AGAR AOS MEMBACA ANIMASI) -->
+  <!-- KONTEN UTAMA -->
   <div id="main-content">
     
     <!-- Detail Acara -->
@@ -212,7 +218,7 @@
       // Tampilkan tombol musik
       musicControlBtn.classList.remove('hidden');
 
-      // Refresh AOS agar animasi dipicu ulang dengan presisi
+      // Refresh AOS
       AOS.refresh();
 
       // Putar Musik
@@ -257,7 +263,7 @@
 
     // KONFIGURASI SUPABASE
     const SUPABASE_URL = 'https://szzyptxcqnmmcouynufv.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6enlwdHhjcW5tbWNvdXludWZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU5MDQ3NzksImV4cCI6MjEwMTQ4MDc3OX0.qdAGC3LrPFD9ZbBZ2wrhAdz3a7dcxMACjXL5laCN8Ng';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInRefiI6InN6enlwdHhjcW5tbWNvdXludWZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU5MDQ3NzksImV4cCI6MjEwMTQ4MDc3OX0.qdAGC3LrPFD9ZbBZ2wrhAdz3a7dcxMACjXL5laCN8Ng';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     // LOGIKA TOGGLE JUMLAH TAMU
