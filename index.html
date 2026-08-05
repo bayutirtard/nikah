@@ -16,6 +16,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
   
   <style>
+    /* Mencegah efek membal/overscroll di HP agar elemen atas tidak bocor saat ditarik ke atas */
+    html, body {
+      overscroll-behavior-y: none;
+    }
+
     .font-serif-custom { font-family: 'Great Vibes', cursive; }
     .font-sans-custom { font-family: 'Plus Jakarta Sans', sans-serif; }
     
@@ -62,11 +67,10 @@
     </span>
   </button>
 
-  <!-- Hero Section -->
-  <section class="min-h-screen sm:h-screen w-full flex flex-col justify-center items-center text-center p-6 bg-rose-50/50 relative z-10 shrink-0 py-10">
+  <!-- Hero Section / Cover Utama -->
+  <section id="hero-cover" class="min-h-screen sm:h-screen w-full flex flex-col justify-center items-center text-center p-6 bg-rose-50/50 relative z-10 shrink-0 py-10">
     <p data-aos="fade-down" data-aos-duration="1000" class="text-xs uppercase tracking-widest text-stone-500 mb-1">Pernikahan Suci</p>
     <h1 data-aos="zoom-in" data-aos-duration="1200" class="font-serif-custom text-5xl md:text-8xl text-rose-800 mb-2">Bayu & Putri</h1>
-    <p data-aos="fade-up" data-aos-duration="1000" class="text-xs md:text-sm font-semibold text-stone-600 mb-4">Gerardo Mayella Bayu Tirta Ardi & Fransiska Desiana Putri</p>
     <p data-aos="fade-up" data-aos-duration="1000" class="text-xs md:text-sm font-semibold text-stone-600 mb-4">Minggu, 30 Agustus 2026</p>
     
     <div data-aos="fade-up" data-aos-duration="1000" class="max-w-md mx-auto mb-5 px-2">
@@ -92,7 +96,7 @@
     <section id="detail" class="max-w-xl mx-auto py-8 md:py-16 px-6 text-center">
 
       <!-- Card Countdown Timer -->
-      <div data-aos="fade-left" data-aos-duration="1200" class="bg-white p-5 rounded-2xl shadow-sm border border-stone-100 mb-6 text-center">
+      <div data-aos="fade-down" data-aos-duration="1200" class="bg-white p-5 rounded-2xl shadow-sm border border-stone-100 mb-6 text-center">
         <h2 class="font-serif-custom text-3xl text-rose-800 mb-1">Menghitung Hari</h2>
         <p class="text-xs text-stone-500 mb-4">Menuju Hari Bahagia Kami</p>
         
@@ -332,6 +336,7 @@
     const musicIcon = document.getElementById('music-icon');
     const btnBuka = document.getElementById('btn-buka-undangan');
     const mainBody = document.getElementById('main-body');
+    const heroCover = document.getElementById('hero-cover');
     let isPlaying = false;
 
     const iconPauseSVG = `<svg class="w-full h-full text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
@@ -350,42 +355,57 @@
       musicIcon.innerHTML = iconPlaySVG;
     }
 
-    // EVENT TOMBOL BUKA UNDANGAN
-btnBuka.addEventListener('click', () => {
-  // 1. Lepas kunci scroll halaman
-  mainBody.classList.remove('h-screen', 'overflow-hidden');
-  mainBody.classList.add('overflow-y-auto');
-  musicControlBtn.classList.remove('hidden');
-  AOS.refresh();
+    // EVENT TOMBOL BUKA UNDANGAN (PERBAIKAN LOGIKA SCROLL PC & HP)
+    btnBuka.addEventListener('click', () => {
+      mainBody.classList.remove('h-screen', 'overflow-hidden');
+      mainBody.classList.add('overflow-y-auto');
+      musicControlBtn.classList.remove('hidden');
+      AOS.refresh();
 
-  if (!isPlaying) {
-    playMusic();
-  }
+      if (!isPlaying) {
+        playMusic();
+      }
 
-  const detailSection = document.getElementById('detail');
+      const detailSection = document.getElementById('detail');
 
-  // Deteksi apakah pengguna menggunakan HP/Mobile
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+      // Deteksi Perangkat HP
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
 
-  if (isMobile) {
-    // Jalur HP: Pakai delay kecil agar kalkulasi address bar HP selesai & scroll mulus
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        const targetPosition = detailSection.getBoundingClientRect().top + window.pageYOffset;
-        window.scrollTo({
-          top: targetPosition,
-          behavior: 'smooth'
+      if (isMobile) {
+        // JALUR HP: Beri delay agar layout address bar HP stabil
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            const targetPosition = detailSection.getBoundingClientRect().top + window.pageYOffset;
+            window.scrollTo({
+              top: targetPosition,
+              behavior: 'smooth'
+            });
+
+            // Sembunyikan Cover/Hero setelah scroll selesai agar tidak terlihat saat ditarik ke atas
+            setTimeout(() => {
+              if (heroCover) {
+                heroCover.style.display = 'none';
+                window.scrollTo(0, 0); // Reset scroll ke paling atas konten utama
+              }
+            }, 700);
+
+          }, 150);
         });
-      }, 150);
+      } else {
+        // JALUR PC: Scroll langsung secara halus
+        detailSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+
+        setTimeout(() => {
+          if (heroCover) {
+            heroCover.style.display = 'none';
+            window.scrollTo(0, 0);
+          }
+        }, 700);
+      }
     });
-  } else {
-    // Jalur PC: Gunakan scrollIntoView bawaan browser yang sangat mulus di desktop
-    detailSection.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
-  }
-});
 
     // KONTROL MUSIK
     musicControlBtn.addEventListener('click', () => {
