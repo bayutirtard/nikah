@@ -91,25 +91,30 @@
     
     <section id="detail" class="max-w-xl mx-auto py-16 px-6 text-center">
       
-<!-- FITUR COUNTDOWN TIMER -->
-    <div data-aos="fade-up" data-aos-duration="1000" class="flex gap-3 mb-6">
-      <div class="bg-white/80 backdrop-blur-sm border border-rose-100 p-2.5 rounded-xl min-w-[60px] shadow-sm">
-        <span id="cd-days" class="block text-xl font-bold text-rose-800">00</span>
-        <span class="text-[10px] text-stone-500 uppercase tracking-wider">Hari</span>
+  <!-- Card Countdown Timer -->
+      <div data-aos="fade-down" data-aos-duration="1500" class="bg-white p-6 rounded-2xl shadow-sm border border-stone-100 mb-6 text-center">
+        <h2 class="font-serif-custom text-3xl text-rose-800 mb-1">Menghitung Hari</h2>
+        <p class="text-xs text-stone-500 mb-4">Menuju Hari Bahagia Kami</p>
+        
+        <div class="grid grid-cols-4 gap-2 max-w-xs mx-auto">
+          <div class="bg-rose-50/60 border border-rose-100 p-2.5 rounded-xl">
+            <span id="cd-card-days" class="block text-xl font-bold text-rose-800">00</span>
+            <span class="text-[10px] text-stone-500 uppercase tracking-wider font-semibold">Hari</span>
+          </div>
+          <div class="bg-rose-50/60 border border-rose-100 p-2.5 rounded-xl">
+            <span id="cd-card-hours" class="block text-xl font-bold text-rose-800">00</span>
+            <span class="text-[10px] text-stone-500 uppercase tracking-wider font-semibold">Jam</span>
+          </div>
+          <div class="bg-rose-50/60 border border-rose-100 p-2.5 rounded-xl">
+            <span id="cd-card-minutes" class="block text-xl font-bold text-rose-800">00</span>
+            <span class="text-[10px] text-stone-500 uppercase tracking-wider font-semibold">Menit</span>
+          </div>
+          <div class="bg-rose-50/60 border border-rose-100 p-2.5 rounded-xl">
+            <span id="cd-card-seconds" class="block text-xl font-bold text-rose-800">00</span>
+            <span class="text-[10px] text-stone-500 uppercase tracking-wider font-semibold">Detik</span>
+          </div>
+        </div>
       </div>
-      <div class="bg-white/80 backdrop-blur-sm border border-rose-100 p-2.5 rounded-xl min-w-[60px] shadow-sm">
-        <span id="cd-hours" class="block text-xl font-bold text-rose-800">00</span>
-        <span class="text-[10px] text-stone-500 uppercase tracking-wider">Jam</span>
-      </div>
-      <div class="bg-white/80 backdrop-blur-sm border border-rose-100 p-2.5 rounded-xl min-w-[60px] shadow-sm">
-        <span id="cd-minutes" class="block text-xl font-bold text-rose-800">00</span>
-        <span class="text-[10px] text-stone-500 uppercase tracking-wider">Menit</span>
-      </div>
-      <div class="bg-white/80 backdrop-blur-sm border border-rose-100 p-2.5 rounded-xl min-w-[60px] shadow-sm">
-        <span id="cd-seconds" class="block text-xl font-bold text-rose-800">00</span>
-        <span class="text-[10px] text-stone-500 uppercase tracking-wider">Detik</span>
-      </div>
-    </div>
       
       <!-- Card Pemberkatan -->
       <div data-aos="fade-right" data-aos-duration="1500" class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 mb-6 hover:shadow-md transition">
@@ -364,7 +369,36 @@
         playMusic();
       }
     });
+    
+    // LOGIKA COUNTDOWN TIMER UNTUK CARD
+    const targetWeddingDate = new Date("August 30, 2026 10:00:00").getTime();
 
+    const updateCountdownCard = () => {
+      const now = new Date().getTime();
+      const difference = targetWeddingDate - now;
+
+      if (difference <= 0) {
+        document.getElementById("cd-card-days").innerText = "00";
+        document.getElementById("cd-card-hours").innerText = "00";
+        document.getElementById("cd-card-minutes").innerText = "00";
+        document.getElementById("cd-card-seconds").innerText = "00";
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      document.getElementById("cd-card-days").innerText = days < 10 ? "0" + days : days;
+      document.getElementById("cd-card-hours").innerText = hours < 10 ? "0" + hours : hours;
+      document.getElementById("cd-card-minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+      document.getElementById("cd-card-seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+    };
+
+    setInterval(updateCountdownCard, 1000);
+    updateCountdownCard();
+    
     // LOGIKA MODAL GIFT
     const giftPage = document.getElementById('gift-page');
     const btnOpenGift = document.getElementById('btn-open-gift');
