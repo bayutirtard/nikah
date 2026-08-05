@@ -155,7 +155,7 @@
       </div>
 
       <!-- FORM UCAPAN & DOA -->
-      <div data-aos="fade-up" data-aos-duration="1500" class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 mb-10 text-left">
+      <div data-aos="fade-up" data-aos-duration="1500" class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 mb-8 text-left">
         <h3 class="font-serif-custom text-3xl text-rose-800 mb-4 text-center">Kirim Doa & Ucapan</h3>
         
         <form id="ucapan-form" class="space-y-4">
@@ -180,6 +180,17 @@
         </div>
       </div>
 
+      <!-- CARD Pemicu WEDDING GIFT -->
+      <div data-aos="fade-up" data-aos-duration="1500" class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 mb-10 text-center">
+        <h3 class="font-serif-custom text-3xl text-rose-800 mb-2">Tanda Kasih</h3>
+        <p class="text-xs text-stone-500 mb-6 leading-relaxed">
+          Doa restu Anda merupakan hadiah terindah bagi kami. Namun apabila Anda ingin memberikan tanda kasih, dapat melalui opsi berikut:
+        </p>
+        <button id="btn-open-gift" class="bg-rose-800 hover:bg-rose-900 active:scale-95 text-white text-xs font-semibold px-6 py-2.5 rounded-full shadow-md transition-all inline-flex items-center gap-2">
+          🎁 Kirim Hadiah / Angpao
+        </button>
+      </div>
+
     </section>
 
     <!-- Footer -->
@@ -188,6 +199,63 @@
       <p class="mt-1 font-semibold text-stone-600">Bayu & Putri</p>
     </footer>
 
+  </div>
+
+  <!-- HALAMAN KHUSUS WEDDING GIFT (FULL-SCREEN MODAL/VIEW) -->
+  <div id="gift-page" class="fixed inset-0 bg-stone-900/40 backdrop-blur-md z-[10000] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      
+      <!-- Header Halaman Gift -->
+      <div class="bg-rose-50 p-5 border-b border-rose-100 flex justify-between items-center shrink-0">
+        <div>
+          <h3 class="font-serif-custom text-3xl text-rose-800">Wedding Gift</h3>
+          <p class="text-[10px] text-stone-500">Tanda kasih untuk Bayu & Putri</p>
+        </div>
+        <button id="btn-close-gift" class="text-stone-400 hover:text-stone-700 text-xl font-bold p-1 leading-none">&times;</button>
+      </div>
+
+      <!-- Content Rekening & QRIS -->
+      <div class="p-6 overflow-y-auto space-y-5 text-center">
+        
+        <!-- Rekening 1 -->
+        <div class="bg-stone-50 p-4 rounded-xl border border-stone-200">
+          <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-1">Krom Bank</p>
+          <p class="text-base font-bold text-stone-800 tracking-wide mb-1" id="rek-krom">770075616100</p>
+          <p class="text-xs text-stone-600 mb-3">a.n. Bayu Tirta Ardi</p>
+          <button onclick="copyToClipboard('rek-bca', this)" class="bg-rose-100 hover:bg-rose-200 text-rose-800 text-[11px] font-semibold px-4 py-1.5 rounded-full transition active:scale-95">
+            📋 Salin No. Rekening
+          </button>
+        </div>
+
+        <!-- Rekening 2 -->
+        <div class="bg-stone-50 p-4 rounded-xl border border-stone-200">
+          <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-1">Shopee Pay</p>
+          <p class="text-base font-bold text-stone-800 tracking-wide mb-1" id="no-telp">085827865195</p>
+          <p class="text-xs text-stone-600 mb-3">a.n. Fransiska Putri Desiana</p>
+          <button onclick="copyToClipboard('rek-mandiri', this)" class="bg-rose-100 hover:bg-rose-200 text-rose-800 text-[11px] font-semibold px-4 py-1.5 rounded-full transition active:scale-95">
+            📋 Salin No. Telp
+          </button>
+        </div>
+
+        <!-- QRIS (Opsional) -->
+        <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 flex flex-col items-center">
+          <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">QRIS All Payment</p>
+          <div class="bg-white p-2 border border-stone-200 rounded-lg shadow-inner mb-2">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=BayuPutriWedding" alt="QRIS Angpao" class="w-32 h-32 object-contain">
+          </div>
+          <p class="text-[11px] text-stone-500">Scan menggunakan aplikasi e-wallet / m-banking</p>
+        </div>
+
+      </div>
+
+      <!-- Footer Modal -->
+      <div class="p-4 bg-stone-50 border-t border-stone-100 text-center shrink-0">
+        <button id="btn-back-gift" class="w-full bg-stone-200 hover:bg-stone-300 text-stone-700 text-xs font-semibold py-2.5 rounded-lg transition active:scale-95">
+          Kembali ke Undangan
+        </button>
+      </div>
+
+    </div>
   </div>
 
   <!-- AOS Script -->
@@ -248,6 +316,47 @@
         playMusic();
       }
     });
+
+    // LOGIKA HALAMAN / MODAL WEDDING GIFT
+    const giftPage = document.getElementById('gift-page');
+    const btnOpenGift = document.getElementById('btn-open-gift');
+    const btnCloseGift = document.getElementById('btn-close-gift');
+    const btnBackGift = document.getElementById('btn-back-gift');
+
+    function openGiftPage() {
+      giftPage.classList.remove('hidden');
+      setTimeout(() => {
+        giftPage.classList.remove('opacity-0');
+      }, 10);
+    }
+
+    function closeGiftPage() {
+      giftPage.classList.add('opacity-0');
+      setTimeout(() => {
+        giftPage.classList.add('hidden');
+      }, 300);
+    }
+
+    btnOpenGift.addEventListener('click', openGiftPage);
+    btnCloseGift.addEventListener('click', closeGiftPage);
+    btnBackGift.addEventListener('click', closeGiftPage);
+
+    // Salin No Rekening
+    function copyToClipboard(elementId, btnElement) {
+      const textToCopy = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const originalText = btnElement.innerText;
+        btnElement.innerText = "✓ Tersalin!";
+        btnElement.classList.replace('bg-rose-100', 'bg-emerald-100');
+        btnElement.classList.replace('text-rose-800', 'text-emerald-800');
+        
+        setTimeout(() => {
+          btnElement.innerText = originalText;
+          btnElement.classList.replace('bg-emerald-100', 'bg-rose-100');
+          btnElement.classList.replace('text-emerald-800', 'text-rose-800');
+        }, 2000);
+      });
+    }
 
     // AMBIL NAMA TAMU DARI URL PARAMETER (?to=Nama)
     const urlParams = new URLSearchParams(window.location.search);
