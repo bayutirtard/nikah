@@ -42,9 +42,16 @@
 
   <!-- Hero Section -->
   <section class="min-h-screen flex flex-col justify-center items-center text-center p-6 bg-rose-50/50 relative">
-    <p data-aos="fade-down" data-aos-duration="1000" class="text-xs uppercase tracking-widest text-stone-500 mb-4">Pernikahan Suci</p>
+    <p data-aos="fade-down" data-aos-duration="1000" class="text-xs uppercase tracking-widest text-stone-500 mb-2">Pernikahan Suci</p>
     <h1 data-aos="zoom-in" data-aos-duration="1200" class="font-serif-custom text-6xl md:text-8xl text-rose-800 mb-4">Bayu & Putri</h1>
-    <p data-aos="fade-up" data-aos-duration="1000" class="text-sm text-stone-600 mb-8">Sabtu, 12 Desember 2026</p>
+    <p data-aos="fade-up" data-aos-duration="1000" class="text-sm text-stone-600 mb-6">Sabtu, 12 Desember 2026</p>
+    
+    <!-- BOX NAMA TAMU PERSONAL -->
+    <div data-aos="fade-up" data-aos-duration="1000" class="bg-white/80 backdrop-blur-sm px-6 py-4 rounded-xl border border-rose-100 shadow-sm mb-8 max-w-xs w-full">
+      <p class="text-xs text-stone-500">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
+      <p id="nama-tamu" class="text-base font-semibold text-rose-800 mt-1">Tamu Undangan</p>
+    </div>
+
     <a data-aos="fade-up" data-aos-delay="300" href="#detail" class="animate-bounce bg-rose-800 hover:bg-rose-900 text-white text-sm px-6 py-2.5 rounded-full shadow-md transition">
       Buka Undangan
     </a>
@@ -158,6 +165,16 @@
   <script>
     AOS.init({ once: true, duration: 800 });
 
+    // AMBIL NAMA TAMU DARI URL PARAMETER (?to=Nama)
+    const urlParams = new URLSearchParams(window.location.search);
+    const namaTamu = urlParams.get('to');
+    if (namaTamu) {
+      document.getElementById('nama-tamu').innerText = namaTamu;
+      // Otomatis isi nama di form RSVP & Ucapan
+      document.getElementById('rsvp-nama').value = namaTamu;
+      document.getElementById('nama').value = namaTamu;
+    }
+
     // Generasi Bunga Melayang
     const container = document.getElementById('petals-container');
     for (let i = 0; i < 15; i++) {
@@ -176,7 +193,7 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6enlwdHhjcW5tbWNvdXludWZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU5MDQ3NzksImV4cCI6MjEwMTQ4MDc3OX0.qdAGC3LrPFD9ZbBZ2wrhAdz3a7dcxMACjXL5laCN8Ng';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // --- LOGIKA TOGGLE JUMLAH TAMU ---
+    // LOGIKA TOGGLE JUMLAH TAMU
     const statusSelect = document.getElementById('rsvp-status');
     const jumlahContainer = document.getElementById('container-jumlah-tamu');
     const jumlahInput = document.getElementById('rsvp-jumlah');
@@ -195,7 +212,7 @@
       }
     });
 
-    // --- FITUR RSVP ---
+    // FITUR RSVP
     document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btnRsvp = document.getElementById('btn-rsvp');
@@ -217,13 +234,13 @@
         notif.classList.remove('hidden');
         setTimeout(() => notif.classList.add('hidden'), 5000);
       } else {
-        alert('Gagal mengirim konfirmasi. Pastikan tabel "rsvp" sudah dibuat di Supabase.');
+        alert('Gagal mengirim konfirmasi.');
       }
       btnRsvp.innerText = "Kirim Konfirmasi";
       btnRsvp.disabled = false;
     });
 
-    // --- FITUR UCAPAN ---
+    // FITUR UCAPAN
     async function loadUcapan() {
       const { data, error } = await supabaseClient
         .from('ucapan')
