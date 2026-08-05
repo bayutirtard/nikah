@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Undangan Pernikahan - Romeo & Juliet</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    .font-serif-custom { font-family: 'Great Vibes', cursive; }
+    .font-sans-custom { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body class="bg-stone-50 font-sans-custom text-stone-800 antialiased">
+
+  <!-- Header / Hero Section -->
+  <section class="min-h-screen flex flex-col justify-center items-center text-center p-6 bg-rose-50/50">
+    <p class="text-xs uppercase tracking-widest text-stone-500 mb-4">The Wedding Of</p>
+    <h1 class="font-serif-custom text-6xl md:text-8xl text-rose-800 mb-4">Romeo & Juliet</h1>
+    <p class="text-sm text-stone-600 mb-8">Minggu, 12 Desember 2026</p>
+    <a href="#detail" class="bg-rose-800 hover:bg-rose-900 text-white text-sm px-6 py-2.5 rounded-full shadow-md transition">Buka Undangan</a>
+  </section>
+
+  <!-- Detail Acara -->
+  <section id="detail" class="max-w-xl mx-auto py-16 px-6 text-center">
+    <p class="text-sm text-stone-500 italic mb-10">
+      "Maha Suci Allah yang telah menciptakan pasangan-pasangan semuanya, baik dari apa yang ditumbuhkan oleh bumi dan dari diri mereka maupun dari apa yang tidak mereka ketahui."
+    </p>
+
+    <!-- Card Akad -->
+    <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 mb-6">
+      <h2 class="font-serif-custom text-4xl text-rose-800 mb-2">Akad Nikah</h2>
+      <p class="text-sm text-stone-600 font-semibold">08:00 - 10:00 WIB</p>
+      <p class="text-xs text-stone-500 mt-2">Gedung Serbaguna Indah<br>Jl. Mawar No. 123, Jakarta</p>
+    </div>
+
+    <!-- Card Resepsi -->
+    <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 mb-10">
+      <h2 class="font-serif-custom text-4xl text-rose-800 mb-2">Resepsi</h2>
+      <p class="text-sm text-stone-600 font-semibold">11:00 - 14:00 WIB</p>
+      <p class="text-xs text-stone-500 mt-2">Gedung Serbaguna Indah<br>Jl. Mawar No. 123, Jakarta</p>
+    </div>
+
+    <!-- Lokasi Maps -->
+    <a href="https://maps.google.com" target="_blank" class="inline-block border border-rose-800 text-rose-800 hover:bg-rose-800 hover:text-white text-xs font-semibold px-6 py-2.5 rounded-full transition">
+      Buka Google Maps
+    </a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8 text-center text-xs text-stone-400 bg-stone-100">
+    <p>Terima kasih atas doa dan restu Anda</p>
+    <p class="mt-1 font-semibold text-stone-600">Romeo & Juliet</p>
+  </footer>
+
+</body>
+</html>
