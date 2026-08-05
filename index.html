@@ -35,17 +35,17 @@
     }
   </style>
 </head>
-<!-- KUNCI SCROLL: overflow-hidden pada body -->
+<!-- KUNCI SCROLL: overflow-hidden pada body saat awal -->
 <body id="main-body" class="bg-stone-50 font-sans-custom text-stone-800 antialiased overflow-hidden">
 
   <!-- Efek Bunga Melayang -->
   <div id="petals-container"></div>
 
-  <!-- AUDIO ELEMENT (Ganti URL_FILE_MUSIK_ANDA.mp3 dengan link MP3 Anda) -->
- <audio id="wedding-music" loop>
-  <source src="https://raw.githubusercontent.com/bayutirtard/nikah/main/Bruno%20Mars%20-%20Risk%20It%20All%20Piano%20Cover%20Sheet%20Music.mp3" type="audio/mpeg">
-  Browser Anda tidak mendukung elemen audio.
-</audio>
+  <!-- AUDIO ELEMENT (Link Direct MP3 GitHub Anda) -->
+  <audio id="wedding-music" loop preload="auto">
+    <source src="https://raw.githubusercontent.com/bayutirtard/nikah/main/Bruno%20Mars%20-%20Risk%20It%20All%20Piano%20Cover%20Sheet%20Music.mp3" type="audio/mpeg">
+    Browser Anda tidak mendukung elemen audio.
+  </audio>
 
   <!-- TOMBOL KONTROL MUSIK MELAYANG (Ikon Play/Pause) -->
   <button id="music-control" class="hidden fixed bottom-5 right-5 z-50 bg-rose-800 text-white p-3 rounded-full shadow-lg hover:bg-rose-900 transition flex items-center justify-center border-2 border-white focus:outline-none w-12 h-12">
@@ -74,11 +74,11 @@
 
     <!-- Tombol Buka Undangan -->
     <button id="btn-buka-undangan" data-aos="fade-up" data-aos-delay="300" class="animate-bounce bg-rose-800 hover:bg-rose-900 text-white text-sm px-6 py-2.5 rounded-full shadow-md transition">
-      Buka Undangan
+      ✉️ Buka Undangan
     </button>
   </section>
 
-  <!-- KONTEN KEDUA (Sembunyi secara bawaan sampai tombol diklik) -->
+  <!-- KONTEN UTAMA (Sembunyi secara bawaan sampai tombol diklik) -->
   <div id="main-content" class="hidden">
     
     <!-- Detail Acara -->
@@ -183,7 +183,7 @@
   <script>
     AOS.init({ once: true, duration: 800 });
 
-    // --- LOGIKA PEMUTARAN MUSIK & IKON PLAY/PAUSE ---
+    // LOGIKA PEMUTARAN MUSIK & UNLOCK SCROLL
     const audio = document.getElementById('wedding-music');
     const musicControlBtn = document.getElementById('music-control');
     const musicIcon = document.getElementById('music-icon');
@@ -195,14 +195,14 @@
     function playMusic() {
       audio.play().then(() => {
         isPlaying = true;
-        musicIcon.innerText = "⏸"; // Tampilkan ikon Pause saat musik menyala
+        musicIcon.innerText = "⏸";
       }).catch(err => console.log("Autoplay diblokir browser:", err));
     }
 
     function pauseMusic() {
       audio.pause();
       isPlaying = false;
-      musicIcon.innerText = "▶"; // Tampilkan ikon Play saat musik jeda
+      musicIcon.innerText = "▶";
     }
 
     // EVENT SAAT "BUKA UNDANGAN" DIKLIK
@@ -211,7 +211,10 @@
       mainContent.classList.remove('hidden');
       musicControlBtn.classList.remove('hidden');
 
-      AOS.refresh();
+      // Refresh AOS agar animasi dihitung ulang setelah elemen tampil
+      setTimeout(() => {
+        AOS.refresh();
+      }, 100);
 
       if (!isPlaying) {
         playMusic();
