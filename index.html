@@ -32,9 +32,10 @@
       pointer-events: none;
       z-index: 50;
       animation: fall linear infinite;
+      will-change: transform;
     }
 
-    /* Hilangkan Highlight pada Sentuhan Layar HP */
+    /* Mencegah highlight oranye bawaan browser mobile */
     #music-control {
       -webkit-tap-highlight-color: transparent !important;
       -webkit-touch-callout: none !important;
@@ -53,9 +54,9 @@
     Browser Anda tidak mendukung elemen audio.
   </audio>
 
-  <!-- TOMBOL KONTROL MUSIK (MENGGUNAKAN SVG ICON ASLI, BUKAN EMOJI) -->
-  <button id="music-control" class="hidden fixed bottom-6 right-4 z-[9999] bg-[#991b1b] hover:bg-[#7f1d1d] text-white p-2.5 rounded-full shadow-xl border-2 border-white flex items-center justify-center w-11 h-11 focus:outline-none">
-    <span id="music-icon" class="w-5 h-5 flex items-center justify-center fill-current">
+  <!-- TOMBOL KONTROL MUSIK (SVG ICON ASLI) -->
+  <button id="music-control" class="hidden fixed bottom-6 right-4 z-[9999] bg-[#991b1b] hover:bg-[#7f1d1d] active:scale-95 text-white p-2.5 rounded-full shadow-xl border-2 border-white flex items-center justify-center w-11 h-11 focus:outline-none transition-all">
+    <span id="music-icon" class="w-5 h-5 flex items-center justify-center fill-current pointer-events-none">
       <!-- Icon Pause (SVG) -->
       <svg class="w-full h-full text-white" viewBox="0 0 24 24" fill="currentColor">
         <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
@@ -84,7 +85,7 @@
     </div>
 
     <!-- Tombol Buka Undangan -->
-    <button id="btn-buka-undangan" data-aos="fade-up" data-aos-delay="300" class="animate-bounce bg-rose-800 hover:bg-rose-900 text-white text-sm px-6 py-2.5 rounded-full shadow-md transition">
+    <button id="btn-buka-undangan" data-aos="fade-up" data-aos-delay="300" class="animate-bounce bg-rose-800 hover:bg-rose-900 active:scale-95 text-white text-sm px-6 py-2.5 rounded-full shadow-md transition-all">
       ✉️ Buka Undangan
     </button>
   </section>
@@ -144,7 +145,7 @@
             <input type="number" id="rsvp-jumlah" min="1" max="5" value="1" required class="w-full px-4 py-2 text-xs border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-rose-800" placeholder="Jumlah orang">
           </div>
 
-          <button type="submit" id="btn-rsvp" class="w-full bg-rose-800 hover:bg-rose-900 text-white text-xs font-semibold py-2.5 rounded-lg transition shadow-sm">
+          <button type="submit" id="btn-rsvp" class="w-full bg-rose-800 hover:bg-rose-900 active:scale-98 text-white text-xs font-semibold py-2.5 rounded-lg transition-all shadow-sm">
             Kirim Konfirmasi
           </button>
         </form>
@@ -166,7 +167,7 @@
             <label class="block text-xs text-stone-600 font-semibold mb-1">Ucapan & Doa</label>
             <textarea id="pesan" rows="3" required class="w-full px-4 py-2 text-xs border border-stone-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-rose-800" placeholder="Tuliskan harapan & ucapan untuk kedua mempelai"></textarea>
           </div>
-          <button type="submit" id="btn-kirim" class="w-full bg-rose-800 hover:bg-rose-900 text-white text-xs font-semibold py-2.5 rounded-lg transition shadow-sm">
+          <button type="submit" id="btn-kirim" class="w-full bg-rose-800 hover:bg-rose-900 active:scale-98 text-white text-xs font-semibold py-2.5 rounded-lg transition-all shadow-sm">
             Kirim Ucapan
           </button>
         </form>
