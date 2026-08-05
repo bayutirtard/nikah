@@ -351,30 +351,32 @@
     }
 
     // EVENT TOMBOL BUKA UNDANGAN
-    btnBuka.addEventListener('click', () => {
-    // 1. Ubah class overflow terlebih dahulu
-    mainBody.classList.remove('h-screen', 'overflow-hidden');
-    mainBody.classList.add('overflow-y-auto');
-    musicControlBtn.classList.remove('hidden');
-    AOS.refresh();
+btnBuka.addEventListener('click', () => {
+  // 1. Lepas kunci scroll halaman
+  mainBody.classList.remove('h-screen', 'overflow-hidden');
+  mainBody.classList.add('overflow-y-auto');
+  musicControlBtn.classList.remove('hidden');
+  AOS.refresh();
 
-    if (!isPlaying) {
-      playMusic();
-    }
+  if (!isPlaying) {
+    playMusic();
+  }
 
-    // 2. Beri jeda 50ms agar layout HP stabil setelah overflow berubah
+  // 2. Tunggu browser selesai me-render ulang layout HP
+  requestAnimationFrame(() => {
     setTimeout(() => {
       const detailSection = document.getElementById('detail');
-    
-    // Hitung posisi absolut elemen detail dari atas dokumen
-      const elementPosition = detailSection.getBoundingClientRect().top + window.pageYOffset;
-    
+      
+      // Hitung koordinat elemen #detail secara presisi
+      const targetPosition = detailSection.getBoundingClientRect().top + window.pageYOffset;
+      
       window.scrollTo({
-        top: elementPosition,
+        top: targetPosition,
         behavior: 'smooth'
       });
-    }, 50);
+    }, 150); // Jeda 150ms memberikan waktu yang cukup agar scroll terasa halus di mobile
   });
+});
 
     // KONTROL MUSIK
     musicControlBtn.addEventListener('click', () => {
