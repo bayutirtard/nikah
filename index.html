@@ -34,7 +34,7 @@
       animation: fall linear infinite;
     }
 
-    /* Mencegah highlight oranye bawaan browser mobile */
+    /* Hilangkan Highlight pada Sentuhan Layar HP */
     #music-control {
       -webkit-tap-highlight-color: transparent !important;
       -webkit-touch-callout: none !important;
@@ -53,9 +53,14 @@
     Browser Anda tidak mendukung elemen audio.
   </audio>
 
-  <!-- TOMBOL KONTROL MUSIK MELAYANG (SUDAH DIPERBAIKI) -->
-  <button id="music-control" class="hidden fixed bottom-6 right-4 z-[9999] bg-[#991b1b] text-white p-2 rounded-full shadow-xl hover:bg-[#7f1d1d] active:bg-[#7f1d1d] focus:outline-none focus:ring-0 border-2 border-white flex items-center justify-center w-10 h-10">
-    <span id="music-icon" class="text-sm font-bold leading-none">⏸</span>
+  <!-- TOMBOL KONTROL MUSIK (MENGGUNAKAN SVG ICON ASLI, BUKAN EMOJI) -->
+  <button id="music-control" class="hidden fixed bottom-6 right-4 z-[9999] bg-[#991b1b] hover:bg-[#7f1d1d] text-white p-2.5 rounded-full shadow-xl border-2 border-white flex items-center justify-center w-11 h-11 focus:outline-none">
+    <span id="music-icon" class="w-5 h-5 flex items-center justify-center fill-current">
+      <!-- Icon Pause (SVG) -->
+      <svg class="w-full h-full text-white" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+      </svg>
+    </span>
   </button>
 
   <!-- Hero Section (Cover Depan) -->
@@ -197,17 +202,21 @@
     const mainBody = document.getElementById('main-body');
     let isPlaying = false;
 
+    // SVG ICON PLAY & PAUSE
+    const iconPauseSVG = `<svg class="w-full h-full text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+    const iconPlaySVG = `<svg class="w-full h-full text-white ml-0.5" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
+
     function playMusic() {
       audio.play().then(() => {
         isPlaying = true;
-        musicIcon.innerText = "⏸";
+        musicIcon.innerHTML = iconPauseSVG;
       }).catch(err => console.log("Autoplay diblokir browser:", err));
     }
 
     function pauseMusic() {
       audio.pause();
       isPlaying = false;
-      musicIcon.innerText = "▶";
+      musicIcon.innerHTML = iconPlaySVG;
     }
 
     // EVENT SAAT "BUKA UNDANGAN" DIKLIK
