@@ -16,11 +16,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
   
   <style>
-    /* Mencegah efek membal/overscroll di HP agar elemen atas tidak bocor saat ditarik ke atas */
-    html, body {
-      overscroll-behavior-y: none;
-    }
-
     .font-serif-custom { font-family: 'Great Vibes', cursive; }
     .font-sans-custom { font-family: 'Plus Jakarta Sans', sans-serif; }
     
@@ -67,8 +62,8 @@
     </span>
   </button>
 
-  <!-- Hero Section / Cover Utama -->
-  <section id="hero-cover" class="min-h-screen sm:h-screen w-full flex flex-col justify-center items-center text-center p-6 bg-rose-50/50 relative z-10 shrink-0 py-10">
+  <!-- Hero Section -->
+  <section class="min-h-screen sm:h-screen w-full flex flex-col justify-center items-center text-center p-6 bg-rose-50/50 relative z-10 shrink-0 py-10">
     <p data-aos="fade-down" data-aos-duration="1000" class="text-xs uppercase tracking-widest text-stone-500 mb-1">Pernikahan Suci</p>
     <h1 data-aos="zoom-in" data-aos-duration="1200" class="font-serif-custom text-5xl md:text-8xl text-rose-800 mb-2">Bayu & Putri</h1>
     <p data-aos="fade-up" data-aos-duration="1000" class="text-xs md:text-sm font-semibold text-stone-600 mb-4">Minggu, 30 Agustus 2026</p>
@@ -336,7 +331,6 @@
     const musicIcon = document.getElementById('music-icon');
     const btnBuka = document.getElementById('btn-buka-undangan');
     const mainBody = document.getElementById('main-body');
-    const heroCover = document.getElementById('hero-cover');
     let isPlaying = false;
 
     const iconPauseSVG = `<svg class="w-full h-full text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
@@ -355,7 +349,7 @@
       musicIcon.innerHTML = iconPlaySVG;
     }
 
-    // EVENT TOMBOL BUKA UNDANGAN (PERBAIKAN LOGIKA SCROLL PC & HP)
+    // EVENT TOMBOL BUKA UNDANGAN
     btnBuka.addEventListener('click', () => {
       mainBody.classList.remove('h-screen', 'overflow-hidden');
       mainBody.classList.add('overflow-y-auto');
@@ -366,45 +360,10 @@
         playMusic();
       }
 
-      const detailSection = document.getElementById('detail');
-
-      // Deteksi Perangkat HP
-      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
-
-      if (isMobile) {
-        // JALUR HP: Beri delay agar layout address bar HP stabil
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            const targetPosition = detailSection.getBoundingClientRect().top + window.pageYOffset;
-            window.scrollTo({
-              top: targetPosition,
-              behavior: 'smooth'
-            });
-
-            // Sembunyikan Cover/Hero setelah scroll selesai agar tidak terlihat saat ditarik ke atas
-            setTimeout(() => {
-              if (heroCover) {
-                heroCover.style.display = 'none';
-                window.scrollTo(0, 0); // Reset scroll ke paling atas konten utama
-              }
-            }, 700);
-
-          }, 150);
-        });
-      } else {
-        // JALUR PC: Scroll langsung secara halus
-        detailSection.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-
-        setTimeout(() => {
-          if (heroCover) {
-            heroCover.style.display = 'none';
-            window.scrollTo(0, 0);
-          }
-        }, 700);
-      }
+      document.getElementById('detail').scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
     });
 
     // KONTROL MUSIK
